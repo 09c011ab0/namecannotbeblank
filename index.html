@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ModernBlog - Professional Blogging Platform</title>
+    <meta name="description" content="A modern, professional blog platform for sharing insights and stories">
+    <meta name="keywords" content="blog, modern, professional, writing, stories">
+    <meta name="author" content="ModernBlog">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="ModernBlog - Professional Blogging Platform">
+    <meta property="og:description" content="A modern, professional blog platform for sharing insights and stories">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ModernBlog - Professional Blogging Platform">
+    <meta name="twitter:description" content="A modern, professional blog platform for sharing insights and stories">
+    
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --accent: #f59e0b;
+            --bg: #ffffff;
+            --bg-alt: #f8fafc;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header */
+        header {
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .search-container {
+            position: relative;
+        }
+
+        .search-input {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            width: 200px;
+            transition: width 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            width: 250px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            background: var(--accent);
+            color: white;
+            padding: 0.875rem 2rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Featured Posts */
+        .featured-posts {
+            padding: 4rem 0;
+            background: var(--bg-alt);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--text);
+        }
+
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .post-card {
+            background: var(--bg);
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .post-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .post-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .post-content {
+            padding: 1.5rem;
+        }
+
+        .post-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .post-category {
+            background: var(--primary);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+        }
+
+        .post-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .post-excerpt {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .read-more {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: gap 0.2s;
+        }
+
+        .read-more:hover {
+            gap: 0.75rem;
+        }
+
+        /* Blog Section */
+        .blog-header {
+            padding: 2rem 0;
+            background: var(--bg-alt);
+            text-align: center;
+        }
+
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Newsletter */
+        .newsletter {
+            background: var(--primary);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .newsletter h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 0.875rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .newsletter-btn {
+            background: var(--accent);
+            color: white;
+            padding: 0.875rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .newsletter-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text);
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .footer-section a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #374151;
+            color: #94a3b8;
+        }
+
+        /* About Page */
+        .about-content {
+            padding: 4rem 0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .about-content p {
+            font-size: 1.125rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bg-alt);
+            border-radius: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.875rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            padding: 2rem 0;
+        }
+
+        .admin-header {
+            background: var(--bg-alt);
+            padding: 2rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .admin-btn {
+            background: var(--primary);
+            color: white;
+            padding: 0.875rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .admin-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .admin-btn.success {
+            background: #10b981;
+        }
+
+        .admin-btn.danger {
+            background: #ef4444;
+        }
+
+        .post-editor {
+            background: var(--bg);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .post-editor input,
+        .post-editor textarea,
+        .post-editor select {
+            width: 100%;
+            padding: 0.875rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .post-editor textarea {
+            min-height: 200px;
+            resize: vertical;
+        }
+
+        /* Social Share */
+        .social-share {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .share-btn {
+            padding: 0.5rem;
+            border: none;
+            border-radius: 0.25rem;
+            color: white;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: transform 0.2s;
+        }
+
+        .share-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .share-twitter { background: #1da1f2; }
+        .share-facebook { background: #4267b2; }
+        .share-linkedin { background: #0077b5; }
+
+        /* Comments */
+        .comments-section {
+            background: var(--bg-alt);
+            padding: 2rem;
+            border-radius: 1rem;
+            margin: 2rem 0;
+        }
+
+        .comment {
+            background: var(--bg);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .comment-author {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--bg);
+                border-top: 1px solid var(--border);
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .admin-actions {
+                flex-direction: column;
+            }
+
+            .search-input {
+                width: 150px;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-lg);
+            z-index: 1001;
+            transform: translateX(400px);
+            transition: transform 0.3s;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            background: #10b981;
+        }
+
+        .toast.error {
+            background: #ef4444;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="#" class="logo" onclick="showSection('home')">ModernBlog</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#" onclick="showSection('home')">Home</a></li>
+                <li><a href="#" onclick="showSection('blog')">Blog</a></li>
+                <li><a href="#" onclick="showSection('about')">About</a></li>
+                <li><a href="#" onclick="showSection('contact')">Contact</a></li>
+                <li><a href="#" onclick="showSection('admin')">Admin</a></li>
+                <li>
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Search posts..." onkeyup="searchPosts(event)">
+                    </div>
+                </li>
+            </ul>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <div class="container">
+                    <h1>Welcome to ModernBlog</h1>
+                    <p>Discover insights, stories, and ideas that matter</p>
+                    <a href="#" class="cta-button" onclick="showSection('blog')">Explore Posts</a>
+                </div>
+            </div>
+
+            <div class="featured-posts">
+                <div class="container">
+                    <h2 class="section-title">Featured Posts</h2>
+                    <div class="posts-grid" id="featuredPostsGrid">
+                        <!-- Featured posts will be inserted here -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="newsletter">
+                <div class="container">
+                    <h2>Stay Updated</h2>
+                    <p>Subscribe to our newsletter for the latest posts and updates</p>
+                    <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+                        <input type="email" class="newsletter-input" placeholder="Enter your email" required>
+                        <button type="submit" class="newsletter-btn">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Section -->
+        <section id="blog" class="section">
+            <div class="blog-header">
+                <div class="container">
+                    <h1 class="section-title">All Posts</h1>
+                    <div class="filters">
+                        <button class="filter-btn active" onclick="filterPosts('all')">All</button>
+                        <button class="filter-btn" onclick="filterPosts('technology')">Technology</button>
+                        <button class="filter-btn" onclick="filterPosts('design')">Design</button>
+                        <button class="filter-btn" onclick="filterPosts('business')">Business</button>
+                        <button class="filter-btn" onclick="filterPosts('lifestyle')">Lifestyle</button>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="posts-grid" id="blogPostsGrid">
+                    <!-- Blog posts will be inserted here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section">
+            <div class="container">
+                <div class="about-content">
+                    <h1>About ModernBlog</h1>
+                    <p>Welcome to ModernBlog, where we share insights, stories, and ideas that inspire and inform. Our mission is to create a platform where quality content meets beautiful design, providing readers with an exceptional blogging experience.</p>
+                    <p>Founded with the vision of making blogging accessible and enjoyable, we focus on delivering content that matters. Whether you're here for the latest in technology, design inspiration, business insights, or lifestyle tips, you'll find something that resonates with you.</p>
+                    <p>Our team of passionate writers and contributors work tirelessly to bring you fresh perspectives and valuable information. We believe in the power of storytelling and the importance of sharing knowledge in our connected world.</p>
+                    <p>Thank you for being part of our community. We're excited to have you on this journey with us!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <div class="container">
+                <div class="about-content">
+                    <h1>Contact Us</h1>
+                    <p>We'd love to hear from you! Get in touch with us using the form below.</p>
+                    <form class="contact-form" onsubmit="submitContact(event)">
+                        <div class="form-group">
+                            <label for="contactName">Name</label>
+                            <input type="text" id="contactName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactEmail">Email</label>
+                            <input type="email" id="contactEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactSubject">Subject</label>
+                            <input type="text" id="contactSubject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactMessage">Message</label>
+                            <textarea id="contactMessage" required></textarea>
+                        </div>
+                        <button type="submit" class="cta-button">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Admin Section -->
+        <section id="admin" class="section">
+            <div class="container">
+                <div class="admin-panel">
+                    <div class="admin-header">
+                        <h1>Content Management</h1>
+                        <p>Create, edit, and manage your blog posts</p>
+                    </div>
+
+                    <div class="admin-actions">
+                        <button class="admin-btn" onclick="showPostEditor()">New Post</button>
+                        <button class="admin-btn success" onclick="exportPosts()">Export Posts</button>
+                        <button class="admin-btn" onclick="viewAnalytics()">Analytics</button>
+                    </div>
+
+                    <div class="post-editor" id="postEditor" style="display: none;">
+                        <h3>Create New Post</h3>
+                        <form onsubmit="savePost(event)">
+                            <input type="text" id="postTitle" placeholder="Post Title" required>
+                            <select id="postCategory">
+                                <option value="technology">Technology</option>
+                                <option value="design">Design</option>
+                                <option value="business">Business</option>
+                                <option value="lifestyle">Lifestyle</option>
+                            </select>
+                            <input type="text" id="postTags" placeholder="Tags (comma-separated)">
+                            <textarea id="postExcerpt" placeholder="Post excerpt (brief summary)" required></textarea>
+                            <textarea id="postContent" placeholder="Post content (full article)" required></textarea>
+                            <input type="text" id="postAuthor" placeholder="Author name" required>
+                            <div style="display: flex; gap: 1rem;">
+                                <button type="submit" class="admin-btn">Publish Post</button>
+                                <button type="button" class="admin-btn" onclick="previewPost()">Preview</button>
+                                <button type="button" class="admin-btn danger" onclick="hidePostEditor()">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="postsList">
+                        <h3>Published Posts</h3>
+                        <div id="adminPostsGrid" class="posts-grid">
+                            <!-- Admin posts list will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ModernBlog</h3>
+                    <p>A modern platform for sharing stories, insights, and ideas that matter.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <p><a href="#" onclick="showSection('home')">Home</a></p>
+                    <p><a href="#" onclick="showSection('blog')">Blog</a></p>
+                    <p><a href="#" onclick="showSection('about')">About</a></p>
+                    <p><a href="#" onclick="showSection('contact')">Contact</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Categories</h3>
+                    <p><a href="#" onclick="showSection('blog'); filterPosts('technology')">Technology</a></p>
+                    <p><a href="#" onclick="showSection('blog'); filterPosts('design')">Design</a></p>
+                    <p><a href="#" onclick="showSection('blog'); filterPosts('business')">Business</a></p>
+                    <p><a href="#" onclick="showSection('blog'); filterPosts('lifestyle')">Lifestyle</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <p><a href="mailto:hello@modernblog.com">hello@modernblog.com</a></p>
+                    <p><a href="#">Twitter</a></p>
+                    <p><a href="#">LinkedIn</a></p>
+                    <p><a href="#">RSS Feed</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ModernBlog. All rights reserved. Built with modern web technologies for optimal performance.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Blog Data Storage
+        let blogPosts = [
+            {
+                id: 1,
+                title: "The Future of Web Development in 2025",
+                excerpt: "Exploring the latest trends and technologies shaping the future of web development, from AI integration to new frameworks.",
+                content: "Web development is evolving rapidly, with new technologies and frameworks emerging constantly. In 2025, we're seeing incredible advances in AI integration, improved developer tools, and more efficient ways to build responsive, accessible websites. This comprehensive guide explores what's coming next and how to prepare for these changes.",
+                category: "technology",
+                tags: ["web development", "AI", "trends", "2025"],
+                author: "Alex Chen",
+                date: "2025-01-15",
+                featured: true,
+                readTime: "5 min read"
+            },
+            {
+                id: 2,
+                title: "Minimalist Design Principles That Actually Work",
+                excerpt: "Learn the core principles of minimalist design and how to apply them effectively in your projects for maximum impact.",
+                content: "Minimalist design isn't just about using less—it's about using the right elements in the right way. This article breaks down the fundamental principles that make minimalist design effective, with practical examples and actionable tips you can implement immediately.",
+                category: "design",
+                tags: ["design", "minimalism", "UI/UX", "principles"],
+                author: "Sarah Johnson",
+                date: "2025-01-12",
+                featured: true,
+                readTime: "7 min read"
+            },
+            {
+                id: 3,
+                title: "Building a Sustainable Business in the Digital Age",
+                excerpt: "Strategies for creating a business that thrives in today's digital landscape while maintaining ethical and sustainable practices.",
+                content: "The digital age has opened up incredible opportunities for businesses, but it has also created new challenges around sustainability and ethics. This article explores how modern businesses can grow while staying true to their values and making a positive impact.",
+                category: "business",
+                tags: ["business", "sustainability", "digital", "strategy"],
+                author: "Michael Rodriguez",
+                date: "2025-01-10",
+                featured: false,
+                readTime: "8 min read"
+            },
+            {
+                id: 4,
+                title: "The Art of Work-Life Balance in Remote Settings",
+                excerpt: "Practical tips and strategies for maintaining a healthy work-life balance while working remotely.",
+                content: "Remote work offers incredible flexibility, but it also blurs the lines between work and personal life. This comprehensive guide provides practical strategies for maintaining balance, staying productive, and preserving your well-being while working from home.",
+                category: "lifestyle",
+                tags: ["remote work", "productivity", "wellness", "balance"],
+                author: "Emma Thompson",
+                date: "2025-01-08",
+                featured: true,
+                readTime: "6 min read"
+            },
+            {
+                id: 5,
+                title: "Advanced CSS Techniques for Modern Layouts",
+                excerpt: "Discover powerful CSS techniques including Grid, Flexbox, and custom properties for creating stunning layouts.",
+                content: "Modern CSS has evolved tremendously, offering developers powerful tools for creating complex, responsive layouts. This deep dive covers advanced Grid techniques, Flexbox patterns, CSS custom properties, and modern layout approaches that will elevate your web development skills.",
+                category: "technology",
+                tags: ["CSS", "web design", "layouts", "responsive"],
+                author: "David Kim",
+                date: "2025-01-05",
+                featured: false,
+                readTime: "10 min read"
+            },
+            {
+                id: 6,
+                title: "Color Psychology in Brand Design",
+                excerpt: "Understanding how colors influence perception and decision-making in brand and marketing design.",
+                content: "Colors have a profound psychological impact on how we perceive brands and make decisions. This comprehensive guide explores the science behind color psychology, cultural considerations, and practical applications for creating effective brand identities.",
+                category: "design",
+                tags: ["color theory", "branding", "psychology", "marketing"],
+                author: "Lisa Park",
+                date: "2025-01-03",
+                featured: false,
+                readTime: "9 min read"
+            }
+        ];
+
+        let currentFilter = 'all';
+        let newsletterSubscribers = [];
+        let analytics = {
+            pageViews: 1250,
+            uniqueVisitors: 892,
+            subscribers: 156,
+            posts: blogPosts.length
+        };
+
+        // Navigation and UI Functions
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName).classList.add('active');
+            
+            // Update navigation active state
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.style.color = '';
+            });
+            event.target.style.color = 'var(--primary)';
+            
+            // Load section-specific content
+            if (sectionName === 'home') {
+                loadFeaturedPosts();
+            } else if (sectionName === 'blog') {
+                loadBlogPosts();
+            } else if (sectionName === 'admin') {
+                loadAdminPosts();
+            }
+        }
+
+        function toggleMobileMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        // Toast Notifications
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => toast.classList.add('show'), 100);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => document.body.removeChild(toast), 300);
+            }, 3000);
+        }
+
+        // Blog Post Functions
+        function loadFeaturedPosts() {
+            const grid = document.getElementById('featuredPostsGrid');
+            const featuredPosts = blogPosts.filter(post => post.featured);
+            
+            grid.innerHTML = featuredPosts.map(post => createPostCard(post)).join('');
+        }
+
+        function loadBlogPosts() {
+            const grid = document.getElementById('blogPostsGrid');
+            const filteredPosts = currentFilter === 'all' 
+                ? blogPosts 
+                : blogPosts.filter(post => post.category === currentFilter);
+            
+            grid.innerHTML = filteredPosts.map(post => createPostCard(post)).join('');
+        }
+
+        function createPostCard(post) {
+            const categoryIcons = {
+                technology: '💻',
+                design: '🎨',
+                business: '💼',
+                lifestyle: '🌱'
+            };
+
+            return `
+                <article class="post-card fade-in" onclick="openPost(${post.id})">
+                    <div class="post-image">${categoryIcons[post.category]}</div>
+                    <div class="post-content">
+                        <div class="post-meta">
+                            <span class="post-category">${post.category}</span>
+                            <span>${post.date}</span>
+                            <span>${post.readTime}</span>
+                        </div>
+                        <h3 class="post-title">${post.title}</h3>
+                        <p class="post-excerpt">${post.excerpt}</p>
+                        <a href="#" class="read-more" onclick="event.stopPropagation(); openPost(${post.id})">
+                            Read More →
+                        </a>
+                    </div>
+                </article>
+            `;
+        }
+
+        function openPost(postId) {
+            const post = blogPosts.find(p => p.id === postId);
+            if (!post) return;
+
+            // Create modal overlay
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.8);
+                z-index: 1002;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 2rem;
+                overflow-y: auto;
+            `;
+
+            const relatedPosts = blogPosts
+                .filter(p => p.id !== postId && (p.category === post.category || p.tags.some(tag => post.tags.includes(tag))))
+                .slice(0, 3);
+
+            modal.innerHTML = `
+                <div style="
+                    background: white;
+                    max-width: 800px;
+                    width: 100%;
+                    border-radius: 1rem;
+                    overflow: hidden;
+                    max-height: 90vh;
+                    overflow-y: auto;
+                ">
+                    <div style="padding: 2rem;">
+                        <button onclick="document.body.removeChild(this.closest('.modal'))" 
+                                style="float: right; background: none; border: none; font-size: 1.5rem; cursor: pointer;">×</button>
+                        <div style="margin-bottom: 1rem;">
+                            <span class="post-category">${post.category}</span>
+                            <span style="margin-left: 1rem; color: var(--text-light);">${post.date} • ${post.readTime}</span>
+                        </div>
+                        <h1 style="font-size: 2rem; margin-bottom: 1rem; line-height: 1.2;">${post.title}</h1>
+                        <p style="color: var(--text-light); margin-bottom: 1rem;">By ${post.author}</p>
+                        
+                        <div class="social-share">
+                            <button class="share-btn share-twitter" onclick="sharePost('twitter', '${post.title}')">Twitter</button>
+                            <button class="share-btn share-facebook" onclick="sharePost('facebook', '${post.title}')">Facebook</button>
+                            <button class="share-btn share-linkedin" onclick="sharePost('linkedin', '${post.title}')">LinkedIn</button>
+                        </div>
+                        
+                        <div style="line-height: 1.7; margin: 2rem 0;">
+                            ${post.content.split('\n').map(p => `<p>${p}</p>`).join('')}
+                        </div>
+                        
+                        <div style="background: var(--bg-alt); padding: 1.5rem; border-radius: 0.5rem; margin: 2rem 0;">
+                            <h4>About the Author</h4>
+                            <p><strong>${post.author}</strong> - A passionate writer and expert in ${post.category}. Follow for more insights and updates.</p>
+                        </div>
+                        
+                        <div class="comments-section">
+                            <h3>Comments</h3>
+                            <div id="comments-${post.id}">
+                                <div class="comment">
+                                    <div class="comment-author">John Doe</div>
+                                    <p>Great article! Really helpful insights.</p>
+                                </div>
+                                <div class="comment">
+                                    <div class="comment-author">Jane Smith</div>
+                                    <p>Thanks for sharing this. Looking forward to more content like this.</p>
+                                </div>
+                            </div>
+                            <form onsubmit="addComment(event, ${post.id})" style="margin-top: 1rem;">
+                                <input type="text" placeholder="Your name" required style="width: 100%; padding: 0.5rem; margin-bottom: 0.5rem; border: 1px solid var(--border); border-radius: 0.25rem;">
+                                <textarea placeholder="Your comment" required style="width: 100%; padding: 0.5rem; margin-bottom: 0.5rem; border: 1px solid var(--border); border-radius: 0.25rem; min-height: 80px;"></textarea>
+                                <button type="submit" class="admin-btn">Post Comment</button>
+                            </form>
+                        </div>
+                        
+                        ${relatedPosts.length > 0 ? `
+                            <div style="margin-top: 3rem;">
+                                <h3>Related Posts</h3>
+                                <div style="display: grid; gap: 1rem; margin-top: 1rem;">
+                                    ${relatedPosts.map(related => `
+                                        <div style="display: flex; gap: 1rem; padding: 1rem; background: var(--bg-alt); border-radius: 0.5rem; cursor: pointer;" onclick="document.body.removeChild(document.querySelector('.modal')); openPost(${related.id})">
+                                            <div style="width: 80px; height: 60px; background: var(--primary); border-radius: 0.25rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
+                                                ${{technology: '💻', design: '🎨', business: '💼', lifestyle: '🌱'}[related.category]}
+                                            </div>
+                                            <div>
+                                                <h4 style="margin-bottom: 0.25rem; font-size: 1rem;">${related.title}</h4>
+                                                <p style="color: var(--text-light); font-size: 0.875rem; margin: 0;">${related.excerpt.substring(0, 100)}...</p>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+
+            modal.className = 'modal';
+            document.body.appendChild(modal);
+            
+            // Track analytics
+            analytics.pageViews++;
+        }
+
+        function addComment(event, postId) {
+            event.preventDefault();
+            const form = event.target;
+            const name = form.elements[0].value;
+            const comment = form.elements[1].value;
+            
+            const commentsContainer = document.getElementById(`comments-${postId}`);
+            const newComment = document.createElement('div');
+            newComment.className = 'comment';
+            newComment.innerHTML = `
+                <div class="comment-author">${name}</div>
+                <p>${comment}</p>
+            `;
+            commentsContainer.appendChild(newComment);
+            
+            form.reset();
+            showToast('Comment added successfully!', 'success');
+        }
+
+        function sharePost(platform, title) {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent(title);
+            
+            let shareUrl;
+            switch(platform) {
+                case 'twitter':
+                    shareUrl = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
+                    break;
+                case 'facebook':
+                    shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+                    break;
+                case 'linkedin':
+                    shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
+                    break;
+            }
+            
+            if (shareUrl) {
+                window.open(shareUrl, '_blank', 'width=600,height=400');
+            }
+        }
+
+        function filterPosts(category) {
+            currentFilter = category;
+            
+            // Update filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            loadBlogPosts();
+        }
+
+        function searchPosts(event) {
+            if (event.key === 'Enter') {
+                const query = event.target.value.toLowerCase();
+                const grid = document.getElementById('blogPostsGrid');
+                
+                if (!query) {
+                    loadBlogPosts();
+                    return;
+                }
+                
+                const filteredPosts = blogPosts.filter(post => 
+                    post.title.toLowerCase().includes(query) ||
+                    post.excerpt.toLowerCase().includes(query) ||
+                    post.content.toLowerCase().includes(query) ||
+                    post.tags.some(tag => tag.toLowerCase().includes(query))
+                );
+                
+                grid.innerHTML = filteredPosts.length > 0 
+                    ? filteredPosts.map(post => createPostCard(post)).join('')
+                    : '<p style="text-align: center; color: var(--text-light); grid-column: 1 / -1;">No posts found matching your search.</p>';
+                
+                showToast(`Found ${filteredPosts.length} posts matching "${query}"`, 'info');
+            }
+        }
+
+        // Newsletter Functions
+        function subscribeNewsletter(event) {
+            event.preventDefault();
+            const email = event.target.elements[0].value;
+            
+            if (newsletterSubscribers.includes(email)) {
+                showToast('Email already subscribed!', 'error');
+                return;
+            }
+            
+            newsletterSubscribers.push(email);
+            analytics.subscribers++;
+            event.target.reset();
+            showToast('Successfully subscribed to newsletter!', 'success');
+        }
+
+        // Contact Form
+        function submitContact(event) {
+            event.preventDefault();
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            const subject = document.getElementById('contactSubject').value;
+            const message = document.getElementById('contactMessage').value;
+            
+            // Simulate form submission
+            setTimeout(() => {
+                showToast('Message sent successfully! We\'ll get back to you soon.', 'success');
+                event.target.reset();
+            }, 1000);
+        }
+
+        // Admin Functions
+        function showPostEditor() {
+            document.getElementById('postEditor').style.display = 'block';
+            document.getElementById('postEditor').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function hidePostEditor() {
+            document.getElementById('postEditor').style.display = 'none';
+            document.querySelector('#postEditor form').reset();
+        }
+
+        function savePost(event) {
+            event.preventDefault();
+            
+            const title = document.getElementById('postTitle').value;
+            const category = document.getElementById('postCategory').value;
+            const tags = document.getElementById('postTags').value.split(',').map(tag => tag.trim());
+            const excerpt = document.getElementById('postExcerpt').value;
+            const content = document.getElementById('postContent').value;
+            const author = document.getElementById('postAuthor').value;
+            
+            const newPost = {
+                id: Math.max(...blogPosts.map(p => p.id)) + 1,
+                title,
+                excerpt,
+                content,
+                category,
+                tags,
+                author,
+                date: new Date().toISOString().split('T')[0],
+                featured: false,
+                readTime: Math.ceil(content.split(' ').length / 200) + ' min read'
+            };
+            
+            blogPosts.unshift(newPost);
+            analytics.posts++;
+            
+            hidePostEditor();
+            loadAdminPosts();
+            showToast('Post published successfully!', 'success');
+        }
+
+        function previewPost() {
+            const title = document.getElementById('postTitle').value;
+            const content = document.getElementById('postContent').value;
+            
+            if (!title || !content) {
+                showToast('Please fill in title and content to preview', 'error');
+                return;
+            }
+            
+            const preview = window.open('', '_blank');
+            preview.document.write(`
+                <html>
+                <head><title>Preview: ${title}</title></head>
+                <body style="font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 2rem;">
+                    <h1>${title}</h1>
+                    <div style="line-height: 1.6;">${content.split('\n').map(p => `<p>${p}</p>`).join('')}</div>
+                </body>
+                </html>
+            `);
+        }
+
+        function loadAdminPosts() {
+            const grid = document.getElementById('adminPostsGrid');
+            grid.innerHTML = blogPosts.slice(0, 10).map(post => `
+                <div class="post-card">
+                    <div class="post-content">
+                        <div class="post-meta">
+                            <span class="post-category">${post.category}</span>
+                            <span>${post.date}</span>
+                        </div>
+                        <h3 class="post-title">${post.title}</h3>
+                        <p class="post-excerpt">${post.excerpt.substring(0, 100)}...</p>
+                        <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                            <button class="admin-btn" style="font-size: 0.875rem; padding: 0.5rem 1rem;" onclick="editPost(${post.id})">Edit</button>
+                            <button class="admin-btn danger" style="font-size: 0.875rem; padding: 0.5rem 1rem;" onclick="deletePost(${post.id})">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function editPost(postId) {
+            const post = blogPosts.find(p => p.id === postId);
+            if (!post) return;
+            
+            document.getElementById('postTitle').value = post.title;
+            document.getElementById('postCategory').value = post.category;
+            document.getElementById('postTags').value = post.tags.join(', ');
+            document.getElementById('postExcerpt').value = post.excerpt;
+            document.getElementById('postContent').value = post.content;
+            document.getElementById('postAuthor').value = post.author;
+            
+            showPostEditor();
+            
+            // Remove the post temporarily for editing
+            blogPosts = blogPosts.filter(p => p.id !== postId);
+        }
+
+        function deletePost(postId) {
+            if (confirm('Are you sure you want to delete this post?')) {
+                blogPosts = blogPosts.filter(p => p.id !== postId);
+                analytics.posts--;
+                loadAdminPosts();
+                showToast('Post deleted successfully', 'success');
+            }
+        }
+
+        function exportPosts() {
+            const dataStr = JSON.stringify(blogPosts, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'blog-posts.json';
+            link.click();
+            URL.revokeObjectURL(url);
+            showToast('Posts exported successfully!', 'success');
+        }
+
+        function viewAnalytics() {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.8);
+                z-index: 1002;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 2rem;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; padding: 2rem; border-radius: 1rem; max-width: 600px; width: 100%;">
+                    <button onclick="document.body.removeChild(this.closest('.modal'))" 
+                            style="float: right; background: none; border: none; font-size: 1.5rem; cursor: pointer;">×</button>
+                    <h2>Blog Analytics</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; margin: 2rem 0;">
+                        <div style="text-align: center; padding: 1rem; background: var(--bg-alt); border-radius: 0.5rem;">
+                            <h3 style="color: var(--primary); font-size: 2rem; margin: 0;">${analytics.pageViews}</h3>
+                            <p style="margin: 0; color: var(--text-light);">Page Views</p>
+                        </div>
+                        <div style="text-align: center; padding: 1rem; background: var(--bg-alt); border-radius: 0.5rem;">
+                            <h3 style="color: var(--primary); font-size: 2rem; margin: 0;">${analytics.uniqueVisitors}</h3>
+                            <p style="margin: 0; color: var(--text-light);">Unique Visitors</p>
+                        </div>
+                        <div style="text-align: center; padding: 1rem; background: var(--bg-alt); border-radius: 0.5rem;">
+                            <h3 style="color: var(--primary); font-size: 2rem; margin: 0;">${analytics.subscribers}</h3>
+                            <p style="margin: 0; color: var(--text-light);">Subscribers</p>
+                        </div>
+                        <div style="text-align: center; padding: 1rem; background: var(--bg-alt); border-radius: 0.5rem;">
+                            <h3 style="color: var(--primary); font-size: 2rem; margin: 0;">${analytics.posts}</h3>
+                            <p style="margin: 0; color: var(--text-light);">Total Posts</p>
+                        </div>
+                    </div>
+                    <h3>Popular Categories</h3>
+                    <div style="margin-top: 1rem;">
+                        ${['technology', 'design', 'business', 'lifestyle'].map(cat => {
+                            const count = blogPosts.filter(p => p.category === cat).length;
+                            const percentage = (count / blogPosts.length * 100).toFixed(1);
+                            return `
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                    <span style="text-transform: capitalize;">${cat}</span>
+                                    <span>${count} posts (${percentage}%)</span>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+            
+            modal.className = 'modal';
+            document.body.appendChild(modal);
+        }
+
+        // Initialize the blog
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFeaturedPosts();
+            showToast('Welcome to ModernBlog!', 'success');
+            
+            // Add some smooth scrolling for better UX
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+            
+            // Auto-hide mobile menu when clicking outside
+            document.addEventListener('click', function(e) {
+                const navLinks = document.getElementById('navLinks');
+                const mobileBtn = document.querySelector('.mobile-menu-btn');
+                
+                if (!navLinks.contains(e.target) && !mobileBtn.contains(e.target)) {
+                    navLinks.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
